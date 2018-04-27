@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dxc.pai.dao.OrderTableMapper" >
+  <resultMap id="BaseResultMap" type="com.dxc.pai.model.OrderTable" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="opentime" property="opentime" jdbcType="TIMESTAMP" />
+    <result column="tablecode" property="tablecode" jdbcType="CHAR" />
+    <result column="fooddetails" property="fooddetails" jdbcType="CHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ordertable
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.dxc.pai.model.OrderTable" >
+    insert into ordertable (id, opentime, tablecode, 
+      fooddetails)
+    values (#{id,jdbcType=CHAR}, #{opentime,jdbcType=TIMESTAMP}, #{tablecode,jdbcType=CHAR}, 
+      #{fooddetails,jdbcType=CHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.dxc.pai.model.OrderTable" >
+    update ordertable
+    set opentime = #{opentime,jdbcType=TIMESTAMP},
+      tablecode = #{tablecode,jdbcType=CHAR},
+      fooddetails = #{fooddetails,jdbcType=CHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, opentime, tablecode, fooddetails
+    from ordertable
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, opentime, tablecode, fooddetails
+    from ordertable
+  </select>
+</mapper>

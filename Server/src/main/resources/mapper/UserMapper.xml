@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dxc.pai.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.dxc.pai.model.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="password" property="password" jdbcType="CHAR" />
+    <result column="username" property="username" jdbcType="CHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIME" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from spsuser
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dxc.pai.model.User" >
+    insert into spsuser (password, username, 
+      createtime)
+    values (#{password,jdbcType=CHAR}, #{username,jdbcType=CHAR}, 
+      LOCALTIMESTAMP)
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.dxc.pai.model.User" >
+    update spsuser
+    set password = #{password,jdbcType=CHAR},
+      username = #{username,jdbcType=CHAR},
+      createtime = #{createtime,jdbcType=TIME}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, password, username, createtime
+    from spsuser
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, password, username, createtime
+    from spsuser 
+    order by id desc
+  </select>
+</mapper>
