@@ -1,14 +1,12 @@
 package com.dxc.pai.util;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.TimerTask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dxc.pai.service.OrderService;
-
+import com.dxc.pai.service.LoginSimulationService;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 
@@ -19,29 +17,17 @@ public class RetrieveDataTask extends TimerTask{
 		// TODO Auto-generated method stub
 
 	}
+	
 	@Autowired
-	private OrderService orderService;
+	public LoginSimulationService ls;
 
 	@Override
 	public void run() {
-		AnalogLogin al = new AnalogLogin(orderService);
-		al.loginAndGetData();
-		/*while(true)
-		{
-			if(AnalogLogin.login())
-			{
-				
-				break;
-			}
-			else
-			{
-				AnalogLogin.identifyCount+=1;				
-				AnalogLogin.cookie_str ="";
-			}
-		}
-		System.out.println("identifyCount: "+AnalogLogin.identifyCount);
+		
 		long curr = System.currentTimeMillis();
-		AnalogLogin.GetOrderDataByTime(curr - 1000*60*60*24, curr);*/
+		ls.Login();
+		ls.requestData(curr - 1000*60*60*24, curr);
+		
 		
 	}
 	public String readimg(String imgPath) {
