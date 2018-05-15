@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dxc.pai.dao.OrderTableMapper;
-import com.dxc.pai.dao.UserMapper;
 import com.dxc.pai.model.OrderTable;
 import com.dxc.pai.util.CommonTool;
 
@@ -50,8 +49,6 @@ public class OrderService {
 			System.out.println(foodData.toString());
 			orderTableMapper.updateByPrimaryKey(order);
 		}
-		
-
 	}
 	
 	
@@ -68,15 +65,15 @@ public class OrderService {
 			order.setOpentime(CommonTool.strToUtilDate(orderJsonObj.getString("openTime")));
 			order.setTablecode(orderJsonObj.getString("tableCode"));
 			
-//			if(orderTableMapper.selectByPrimaryKey(order.getId())!=null)			
-//			{
+			if(orderTableMapper.selectByPrimaryKey(order.getId())==null)			
+			{
 				orderTableMapper.insert(order);
 				
-//			}
-//			else
-//			{
-//				System.out.println("id:"+order.getId()+"已存在");
-//			}
+			}
+			else
+			{
+				System.out.println("id:"+order.getId()+"已存在");
+			}
 			orderIds.add(order.getId());
 		}
 		return orderIds;

@@ -1,7 +1,6 @@
 package com.dxc.pai.util;
 
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,33 +15,22 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
-import com.dxc.pai.service.OrderService;
-import com.google.gson.JsonObject;
 
 
 public class AnalogLogin {
 
 	public static String cookie_str="";
-	public static int identifyCount = 1;
-	
-	public static OrderService orderService;
-	public AnalogLogin(OrderService os)
+	public static int identifyCount = 1;	
+
+	public AnalogLogin()
 	{
-		orderService = os;
+		tryLogin();
 	}
 	
 	
-	public void loginAndGetData()
+	private void tryLogin()
 	{
 		while(true)
 		{
@@ -56,9 +44,7 @@ public class AnalogLogin {
 				cookie_str ="";
 			}
 		}
-		System.out.println("identifyCount: "+identifyCount);
-		long curr = System.currentTimeMillis();
-		GetOrderDataByTime(curr-1000*60*60*24,curr);		
+		System.out.println("identifyCount: "+identifyCount);		
 	}
 	/**
 	 * get identify code and cookies
@@ -87,10 +73,10 @@ public class AnalogLogin {
 	            	temp = temp.substring(0, temp.indexOf(";")); 
 	            	temp+="; ";
 	            	cookie_str+=temp;	            	
-	            }
-		     }
+	            }  
+		     }  
 	        //System.out.println("cookie: "+cookie_str);		
-            File imageFile = new File("codeImage.jpg");
+            File imageFile = new File("src/main/resources/static/pic/codeImage.jpg");
             if (imageFile.exists()) {
             	imageFile.delete();
             }
@@ -121,6 +107,7 @@ public class AnalogLogin {
 	 */
 	public static boolean login() 
 	{
+		//get secret code
 		String secretcode = getSecretCode();
 		
 		String loginInfor = "userName=xingwangchaocaiguan&employeeName=&password=888888&validateCode=";
@@ -261,8 +248,9 @@ public class AnalogLogin {
 	}
 	
 	
-	public static void GetOrderDataByTime(Long startTime, Long endTime)
+	public static String GetOrderDataByTime(Long startTime, Long endTime)
 	{
+		String result = "";
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("startTime", startTime);
 		jsonObj.put("endTime", endTime);
@@ -274,7 +262,7 @@ public class AnalogLogin {
 		jsonObj.put("tableNum","");
 		jsonObj.put("mtReserveChecked",false);
 		jsonObj.put("billSource","");
-		//jsonObj.put("size",2);
+		jsonObj.put("size",2);
 		jsonObj.put("start",0);
 		//System.out.println(jsonObj.toString());		
 		PrintWriter out = null;
@@ -283,7 +271,7 @@ public class AnalogLogin {
 		
 		HttpURLConnection httpURLConnection  = getURLConnection(urlPath,"POST");	
 		httpURLConnection.setDoInput(true);
-		httpURLConnection.setDoOutput(true);
+		httpURLConnection.setDoOutput(true);		
 		
 		try {
 			httpURLConnection.connect(); 
@@ -298,14 +286,8 @@ public class AnalogLogin {
 				sb.append(line);
 			}		
 			System.out.println(sb.toString());	
-			
-			//save data			
-			List<String> orderIds = orderService.insertOrder(sb.toString());
-			for(int i=0;i<orderIds.size();i++)
-			{
-				String orderData = GetOrderDetailByID(orderIds.get(i));
-				orderService.updateOrderDetail(orderData, orderIds.get(i));
-			}			
+			result = sb.toString();
+					
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -322,6 +304,7 @@ public class AnalogLogin {
 			}
 		}		
 		
+		return result;
 	}
 
 }

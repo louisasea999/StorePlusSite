@@ -1,7 +1,5 @@
 package com.dxc.pai.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dxc.pai.model.User;
-import com.dxc.pai.service.OrderService;
+import com.dxc.pai.service.LoginSimulationService;
 import com.dxc.pai.service.UserService;
-import com.dxc.pai.util.AnalogLogin;
 
 @Controller
 public class PaiController {
@@ -23,12 +18,22 @@ public class PaiController {
     private String mysite;
 	
 	@Autowired
-	public OrderService orderService;
-	
-	@Autowired
 	public UserService us;
 
+	@Autowired
+	public LoginSimulationService ls;
 	
+	@RequestMapping("/")
+	public String index(){
+		System.out.println("1111");
+		
+		long curr = System.currentTimeMillis();
+		ls.Login();
+		ls.requestData(curr - 1000*60*60*24, curr);
+		
+		
+		return "hello";
+	}
 	
 	
 	//@ResponseBody默认值为
