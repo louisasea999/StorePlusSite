@@ -262,9 +262,9 @@ public class AnalogLogin {
 		jsonObj.put("tableNum","");
 		jsonObj.put("mtReserveChecked",false);
 		jsonObj.put("billSource","");
-		jsonObj.put("size",2);
+		jsonObj.put("size",1000);
 		jsonObj.put("start",0);
-		//System.out.println(jsonObj.toString());		
+		//System.out.println(jsonObj.toString());
 		PrintWriter out = null;
 		BufferedReader in = null;
 		String urlPath = "http://irs.passiontec.cn/irs-api/zeus-web/bill-report/detail";
