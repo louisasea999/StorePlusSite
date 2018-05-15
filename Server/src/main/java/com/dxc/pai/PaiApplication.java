@@ -54,9 +54,6 @@ public class PaiApplication {
 	@Autowired
     private Environment env;
 	
-	@Autowired
-	private static OrderService os;
-	
 	//destroy-method="close"的作用是当数据库连接不使用的时候,就把该连接重新放到数据池中,方便下次使用调用.
     @Bean(destroyMethod =  "close")
     public DataSource dataSource() {
@@ -115,8 +112,7 @@ public class PaiApplication {
 		*/
 	}
 	
-	public static void aPost() throws IOException {
-		
+	public static void aPost() throws IOException {		
 		//JsonArray jsonArray = new JsonArray();
 		JsonObject jsonObj = new JsonObject();
 		jsonObj.addProperty("startTime", 1523721600000L);
