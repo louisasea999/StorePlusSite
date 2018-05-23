@@ -33,4 +33,8 @@
     select id, opentime, tablecode, fooddetails
     from ordertable
   </select>
+  
+  <select id="selectByOpentime" resultMap="BaseResultMap" parameterType="java.util.Date" >
+  
+  </select>
 </mapper>

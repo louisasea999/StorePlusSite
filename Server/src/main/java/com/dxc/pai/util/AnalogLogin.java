@@ -76,7 +76,10 @@ public class AnalogLogin {
 	            }  
 		     }  
 	        //System.out.println("cookie: "+cookie_str);		
-            File imageFile = new File("src/main/resources/static/pic/codeImage.jpg");
+	        File folder = new File("C://Users/temp");
+	        if(folder.exists())
+	        	folder.mkdir();
+            File imageFile = new File("C://Users/temp/codeImage.jpg");
             if (imageFile.exists()) {
             	imageFile.delete();
             }
@@ -262,7 +265,7 @@ public class AnalogLogin {
 		jsonObj.put("tableNum","");
 		jsonObj.put("mtReserveChecked",false);
 		jsonObj.put("billSource","");
-		jsonObj.put("size",2);
+		jsonObj.put("size",2000);
 		jsonObj.put("start",0);
 		//System.out.println(jsonObj.toString());		
 		PrintWriter out = null;

@@ -112,7 +112,7 @@ public class MyDealImage {
        
         
         try {
-			ImageIO.write(img, "JPG", new File("src/main/resources/static/pic/IdentifyImage.jpg"));
+			ImageIO.write(img, "JPG", new File("C://Users/temp/IdentifyImage.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,14 +121,14 @@ public class MyDealImage {
  
     public static String identifyCode() {  
     	try {
-    		BufferedImage img = removeBackgroud4Tone("src/main/resources/static/pic/codeImage.jpg");
+    		BufferedImage img = removeBackgroud4Tone("C://Users/temp/codeImage.jpg");
 			removeOther(img);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}  
         Tesseract1 instance = new Tesseract1();  
-        File imageFile = new File("src/main/resources/static/pic/IdentifyImage.jpg"); // instance.setLanguage("chi_sim");  
+        File imageFile = new File("C://Users/temp/IdentifyImage.jpg"); // instance.setLanguage("chi_sim");  
         String result = null;  
         try {  
             result = instance.doOCR(imageFile);  
