@@ -96,10 +96,10 @@ public class OrderService {
 	 * @param num 判断是销售量还是销售额
 	 * @return
 	 */
-	public Map<String, Integer> getSalesData(boolean num)
+	public Map<String, Object> getSalesData(boolean num)
 	{
 		
-		Map<String, Integer> saleData = new HashMap<String, Integer>();		
+		Map<String, Object> saleData = new HashMap<String, Object>();		
 		List<OrderTable> orders = orderTableMapper.selectAll();
 				
 		for(int i=0; i<orders.size();i++)
@@ -127,8 +127,7 @@ public class OrderService {
 						saleData.put(food.get("foodName").toString(), count + price);
 					}
 				}								
-			}
-			
+			}			
 		}
 		
 		System.out.println(saleData.toString());
@@ -136,22 +135,35 @@ public class OrderService {
 		
 	}
 	
+	public JSONArray changeMapToJSONArray(Map<String, Object> saleData)
+	{
+		JSONArray result = new JSONArray();
+		for(Map.Entry<String, Object> entry : saleData.entrySet()) { 
+			JSONObject temp = new JSONObject();
+			temp.put("foodName",entry.getKey());
+			temp.put("number", entry.getValue());
+			result.add(temp);
+		}
+		return result;
+		
+	}
 	/**
 	 * 得到销售额百分比或者销售量百分比
 	 * @param num
 	 * @return
 	 */
-	public Map<String, Double> getSalesDataPercent(boolean num)
+	public Map<String, Object> getSalesDataPercent(boolean num)
 	{
-		Map<String, Double> saleDataPercent = new HashMap<String, Double>();
+		Map<String, Object> saleDataPercent = new HashMap<String, Object>();
 		int count = 0;
-		Map<String, Integer> saleData = getSalesData(num);
-		for (Integer value : saleData.values()) {  			  
-		   count += value;		  
+		Map<String, Object> saleData = getSalesData(num);
+		for (Object value : saleData.values()) {  
+		   count += Integer.parseInt(value.toString());		  
 		} 
 		System.out.println("count:"+ count);
-		for(Map.Entry<String, Integer> entry : saleData.entrySet()) {  			  
-			saleDataPercent.put(entry.getKey(),  ((double)entry.getValue()/count));	  
+		for(Map.Entry<String, Object> entry : saleData.entrySet()) {  
+			double price = Double.parseDouble(entry.getValue().toString());
+			saleDataPercent.put(entry.getKey(),  (price/count));	  
 		}  
 		
 		System.out.println(saleDataPercent.toString());

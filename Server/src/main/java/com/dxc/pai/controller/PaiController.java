@@ -27,9 +27,9 @@ public class PaiController {
 	public String index(){
 		System.out.println("1111");
 		
-		long curr = System.currentTimeMillis();
-		ls.Login();
-		ls.requestData(curr - 1000*60*60*24, curr);
+//		long curr = System.currentTimeMillis();
+//		ls.Login();
+//		ls.requestData(curr - 1000*60*60*24, curr);
 		
 		
 		return "hello";

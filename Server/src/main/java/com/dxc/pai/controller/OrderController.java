@@ -1,11 +1,15 @@
 package com.dxc.pai.controller;
 
 import javax.validation.ConstraintViolationException;
+
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dxc.pai.model.RestResult;
@@ -33,10 +37,11 @@ public class OrderController {
      * @return 返回封装好的销售额信息
      */
     @RequestMapping("/getSaleDataPrices")
-    public RestResult getSaleDataPrice() {
+    public @ResponseBody RestResult getSaleDataPrice() {
+    	
     	try
     	{
-	    	JSONArray sales = JSONArray.fromObject(os.getSalesData(false));
+    		JSONArray sales = os.changeMapToJSONArray(os.getSalesData(false));
 	        return generator.getSuccessResult("得到销售额",sales);
 	        
     	}catch(Exception e)
@@ -50,16 +55,17 @@ public class OrderController {
      * @return
      */
     @RequestMapping("/getSaleDataNum")
-    public RestResult getSaleDataNum()
+    public @ResponseBody RestResult getSaleDataNum()
     {
     	try
     	{
-	    	JSONArray sales = JSONArray.fromObject(os.getSalesData(true));
+    		JSONArray sales = os.changeMapToJSONArray(os.getSalesData(true));
+	    	
 	        return generator.getSuccessResult("得到销售量",sales);
 	        
 	    }catch(Exception e)
 		{
-			 return generator.getFailResult("发生未知错误，无法得到销售额");
+			 return generator.getFailResult("发生未知错误，无法得到销售量");
 		}
     }
 	
@@ -72,11 +78,11 @@ public class OrderController {
     {
     	try{
     		
-	    	JSONArray sales = JSONArray.fromObject(os.getSalesDataPercent(true));
+    		JSONArray sales = os.changeMapToJSONArray(os.getSalesDataPercent(true));
 	        return generator.getSuccessResult("得到销售量百分比",sales);
 	    }catch(Exception e)
 		{
-			 return generator.getFailResult("发生未知错误，无法得到销售额");
+			 return generator.getFailResult("发生未知错误，无法得到售量百分比");
 		}
     }
     
@@ -89,11 +95,11 @@ public class OrderController {
     {
     	try{
     		
-	    	JSONArray sales = JSONArray.fromObject(os.getSalesDataPercent(false));
+    		JSONArray sales = os.changeMapToJSONArray(os.getSalesDataPercent(false));
 	        return generator.getSuccessResult("得到销售额百分比",sales);
 	    }catch(Exception e)
 		{
-			 return generator.getFailResult("发生未知错误，无法得到销售额");
+			 return generator.getFailResult("发生未知错误，无法得到销售额百分比");
 		}
     }
 	
