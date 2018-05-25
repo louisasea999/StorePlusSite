@@ -31,14 +31,7 @@ public class PaiController {
 	public String indexHM(HttpSession session, Model model){
 		System.out.println("1111");
 		
-<<<<<<< HEAD
-//		long curr = System.currentTimeMillis();
-//		ls.Login();
-//		ls.requestData(curr - 1000*60*60*24, curr);
-		
-		
-		return "hello";
-=======
+
 		//long curr = System.currentTimeMillis();
 		//ls.Login();
 		//ls.requestData(curr - 1000*60*60*24, curr);
@@ -46,7 +39,6 @@ public class PaiController {
 
 		//model.addAttribute("who", "Chad");
 		return "index";
->>>>>>> c40b9de48573c013f20d20c4e70edf3d9aa51a6e
 	}
 	
 	

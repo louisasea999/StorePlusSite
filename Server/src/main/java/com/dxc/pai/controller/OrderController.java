@@ -1,6 +1,5 @@
 package com.dxc.pai.controller;
 
-<<<<<<< HEAD
 import javax.validation.ConstraintViolationException;
 
 import net.sf.json.JSONArray;
@@ -113,22 +112,7 @@ public class OrderController {
         String errorMessage = cve.getConstraintViolations().iterator().next().getMessage();
         return generator.getFailResult(errorMessage);
     }
-=======
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
-import com.dxc.pai.service.OrderService;
-
-@Controller
-public class OrderController {
-
-	@Autowired
-	public OrderService orderService;
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
->>>>>>> c40b9de48573c013f20d20c4e70edf3d9aa51a6e
 
 	
 }

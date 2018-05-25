@@ -33,19 +33,11 @@ public class OrderService {
 	@Autowired
 	private OrderTableMapper orderTableMapper;
 	
-<<<<<<< HEAD
-	/**
-	 * 修改订单中食物信息
-	 * @param orderData 食物信息
-	 * @param id  订单id
-	 */
-	public void updateOrderDetail(String orderData, String id)
-=======
+
 	@Autowired
 	private FoodcombMapper foodcombMapper;
 	
 	public void updateOrderDetail(String orderData, String id, List<String> fds)
->>>>>>> c40b9de48573c013f20d20c4e70edf3d9aa51a6e
 	{		
 		JSONObject orderDetail = (JSONObject) JSONObject.fromObject(orderData.toString()).get("data");
 		JSONArray foodDetails = JSONArray.fromObject( orderDetail.getJSONObject("foodDetals").get("foodDetails"));		
@@ -102,7 +94,6 @@ public class OrderService {
 	}
 	
 	
-<<<<<<< HEAD
 	/**
 	 * 得到销售量或销售额
 	 * @param num 判断是销售量还是销售额
@@ -183,7 +174,6 @@ public class OrderService {
 		
 	}
 
-=======
 	public Foodcomb selectByComb(String comb) {
 		return foodcombMapper.selectByComb(comb);
 	}
@@ -205,6 +195,5 @@ public class OrderService {
 		return orderTableMapper.selectLatest(number);
 	}
 	
->>>>>>> c40b9de48573c013f20d20c4e70edf3d9aa51a6e
 	}
 

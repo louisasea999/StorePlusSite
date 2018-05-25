@@ -46,14 +46,13 @@ public class PaiApplicationTests {
 	public OrderService os;
 	
 	@Test
-<<<<<<< HEAD
-	public void contextLoads() {
-		orderService.getSalesData(true);
-		orderService.getSalesData(false);
-		orderService.getSalesDataPercent(true);
+	public void contextLoads1() {
+		os.getSalesData(true);
+		os.getSalesData(false);
+		os.getSalesDataPercent(true);
 		
 		
-		orderService.getSalesDataPercent(false);
+		os.getSalesDataPercent(false);
 		
 //		AnalogLogin al = new AnalogLogin(orderService);
 //		al.loginAndGetData();
@@ -142,7 +141,6 @@ public class PaiApplicationTests {
 //		}
 //	}
 
-=======
 	public void testnewselect() {
 		String comb = "oo1+oo2000";
 		os.insertNewFC(comb, 10);
@@ -286,5 +284,4 @@ public class PaiApplicationTests {
 				.collect(Collectors.partitioningBy((e) -> e>2));
 		mapp.forEach((key,val) -> System.out.println(key+","+val));
 	}
->>>>>>> c40b9de48573c013f20d20c4e70edf3d9aa51a6e
 }
