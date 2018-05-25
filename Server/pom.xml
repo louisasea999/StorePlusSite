@@ -5,7 +5,7 @@
 
 	<groupId>com.dxc</groupId>
 	<artifactId>pai</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1.2-DEV</version>
 	<packaging>jar</packaging>	
 	<name>pai</name>
 	<description>Demo project for Spring Boot</description>
@@ -109,7 +109,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			
+			<!-- mybatis model,dao,mapper生成插件 -->
 			<plugin>
 				<groupId>org.mybatis.generator</groupId>
 				<artifactId>mybatis-generator-maven-plugin</artifactId>

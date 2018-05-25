@@ -8,7 +8,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dxc.pai.dao.FoodcombMapper;
 import com.dxc.pai.dao.OrderTableMapper;
+import com.dxc.pai.model.Foodcomb;
 import com.dxc.pai.model.OrderTable;
 import com.dxc.pai.util.CommonTool;
 
@@ -31,12 +33,19 @@ public class OrderService {
 	@Autowired
 	private OrderTableMapper orderTableMapper;
 	
+<<<<<<< HEAD
 	/**
 	 * 修改订单中食物信息
 	 * @param orderData 食物信息
 	 * @param id  订单id
 	 */
 	public void updateOrderDetail(String orderData, String id)
+=======
+	@Autowired
+	private FoodcombMapper foodcombMapper;
+	
+	public void updateOrderDetail(String orderData, String id, List<String> fds)
+>>>>>>> c40b9de48573c013f20d20c4e70edf3d9aa51a6e
 	{		
 		JSONObject orderDetail = (JSONObject) JSONObject.fromObject(orderData.toString()).get("data");
 		JSONArray foodDetails = JSONArray.fromObject( orderDetail.getJSONObject("foodDetals").get("foodDetails"));		
@@ -44,6 +53,7 @@ public class OrderService {
 		OrderTable order = orderTableMapper.selectByPrimaryKey(id);
 		if(order!=null)
 		{
+			
 			for(int i=0;i<foodDetails.size();i++)
 			{
 				JSONObject foodDetail=JSONObject.fromObject(foodDetails.get(i));
@@ -53,6 +63,7 @@ public class OrderService {
 				foodData.add(food);
 			}
 			order.setFooddetails(foodData.toString());
+			fds.add(order.getFooddetails());
 			System.out.println(foodData.toString());
 			orderTableMapper.updateByPrimaryKey(order);
 		}
@@ -91,6 +102,7 @@ public class OrderService {
 	}
 	
 	
+<<<<<<< HEAD
 	/**
 	 * 得到销售量或销售额
 	 * @param num 判断是销售量还是销售额
@@ -171,5 +183,28 @@ public class OrderService {
 		
 	}
 
+=======
+	public Foodcomb selectByComb(String comb) {
+		return foodcombMapper.selectByComb(comb);
+	}
+	public void updateFC(Foodcomb fc) {
+		foodcombMapper.updateByPrimaryKey(fc);
+	}	
+	public void insertFC(Foodcomb fc) {
+		foodcombMapper.insert(fc);
+	}
+	public void insertNewFC(String conbName, int count) {
+		Foodcomb fc = new Foodcomb();
+		fc.setComb(conbName);
+		fc.setCount(count);
+		insertFC(fc);
+	}
+	
+	//for test. will be useless
+	public List<String> sele(int number){
+		return orderTableMapper.selectLatest(number);
+	}
+	
+>>>>>>> c40b9de48573c013f20d20c4e70edf3d9aa51a6e
 	}
 

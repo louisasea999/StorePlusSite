@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dxc.pai.dao.FoodcombMapper" >
+  <resultMap id="BaseResultMap" type="com.dxc.pai.model.Foodcomb" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="comb" property="comb" jdbcType="CHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from foodcomb
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dxc.pai.model.Foodcomb" >
+    insert into foodcomb (comb, count, 
+      createtime, updatetime)
+    values (#{comb,jdbcType=CHAR}, #{count,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.dxc.pai.model.Foodcomb" >
+    update foodcomb
+    set comb = #{comb,jdbcType=CHAR},
+      count = #{count,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, comb, count, createtime, updatetime
+    from foodcomb
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByComb" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, comb, count, createtime, updatetime
+    from foodcomb
+    where comb = #{comb,jdbcType=CHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, comb, count, createtime, updatetime
+    from foodcomb
+  </select>
+</mapper>

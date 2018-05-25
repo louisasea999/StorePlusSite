@@ -112,7 +112,11 @@ public class MyDealImage {
        
         
         try {
+<<<<<<< HEAD
 			ImageIO.write(img, "JPG", new File("C://Users/temp/IdentifyImage.jpg"));
+=======
+			ImageIO.write(img, "JPG", new File("C://ServerTemp/pic/IdentifyImage.jpg"));
+>>>>>>> c40b9de48573c013f20d20c4e70edf3d9aa51a6e
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,14 +125,22 @@ public class MyDealImage {
  
     public static String identifyCode() {  
     	try {
+<<<<<<< HEAD
     		BufferedImage img = removeBackgroud4Tone("C://Users/temp/codeImage.jpg");
+=======
+    		BufferedImage img = removeBackgroud4Tone("C://ServerTemp/pic/codeImage.jpg");
+>>>>>>> c40b9de48573c013f20d20c4e70edf3d9aa51a6e
 			removeOther(img);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}  
         Tesseract1 instance = new Tesseract1();  
+<<<<<<< HEAD
         File imageFile = new File("C://Users/temp/IdentifyImage.jpg"); // instance.setLanguage("chi_sim");  
+=======
+        File imageFile = new File("C://ServerTemp/pic/IdentifyImage.jpg"); // instance.setLanguage("chi_sim");  
+>>>>>>> c40b9de48573c013f20d20c4e70edf3d9aa51a6e
         String result = null;  
         try {  
             result = instance.doOCR(imageFile);  

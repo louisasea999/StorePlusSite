@@ -76,10 +76,14 @@ public class AnalogLogin {
 	            }  
 		     }  
 	        //System.out.println("cookie: "+cookie_str);		
+<<<<<<< HEAD
 	        File folder = new File("C://Users/temp");
 	        if(folder.exists())
 	        	folder.mkdir();
             File imageFile = new File("C://Users/temp/codeImage.jpg");
+=======
+            File imageFile = new File("C://ServerTemp/pic/codeImage.jpg");
+>>>>>>> c40b9de48573c013f20d20c4e70edf3d9aa51a6e
             if (imageFile.exists()) {
             	imageFile.delete();
             }
@@ -265,9 +269,13 @@ public class AnalogLogin {
 		jsonObj.put("tableNum","");
 		jsonObj.put("mtReserveChecked",false);
 		jsonObj.put("billSource","");
+<<<<<<< HEAD
 		jsonObj.put("size",2000);
+=======
+		jsonObj.put("size",1000);
+>>>>>>> c40b9de48573c013f20d20c4e70edf3d9aa51a6e
 		jsonObj.put("start",0);
-		//System.out.println(jsonObj.toString());		
+		//System.out.println(jsonObj.toString());
 		PrintWriter out = null;
 		BufferedReader in = null;
 		String urlPath = "http://irs.passiontec.cn/irs-api/zeus-web/bill-report/detail";
