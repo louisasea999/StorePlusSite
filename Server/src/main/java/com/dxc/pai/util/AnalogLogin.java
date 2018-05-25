@@ -76,7 +76,7 @@ public class AnalogLogin {
 	            }  
 		     }  
 	        //System.out.println("cookie: "+cookie_str);		
-            File imageFile = new File("src/main/resources/static/pic/codeImage.jpg");
+            File imageFile = new File("C://ServerTemp/pic/codeImage.jpg");
             if (imageFile.exists()) {
             	imageFile.delete();
             }

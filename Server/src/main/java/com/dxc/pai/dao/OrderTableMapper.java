@@ -16,4 +16,8 @@ public interface OrderTableMapper {
     List<OrderTable> selectAll();
 
     int updateByPrimaryKey(OrderTable record);
+    
+    List<String> selectLatest(Integer number);
+    
+    List<String> selectAllFoodDetail();
 }

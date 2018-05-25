@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dxc.pai.dao.FoodcombMapper;
 import com.dxc.pai.dao.OrderTableMapper;
+import com.dxc.pai.model.Foodcomb;
 import com.dxc.pai.model.OrderTable;
 import com.dxc.pai.util.CommonTool;
 
@@ -29,7 +31,10 @@ public class OrderService {
 	@Autowired
 	private OrderTableMapper orderTableMapper;
 	
-	public void updateOrderDetail(String orderData, String id)
+	@Autowired
+	private FoodcombMapper foodcombMapper;
+	
+	public void updateOrderDetail(String orderData, String id, List<String> fds)
 	{		
 		JSONObject orderDetail = (JSONObject) JSONObject.fromObject(orderData.toString()).get("data");
 		JSONArray foodDetails = JSONArray.fromObject( orderDetail.getJSONObject("foodDetals").get("foodDetails"));		
@@ -37,6 +42,7 @@ public class OrderService {
 		OrderTable order = orderTableMapper.selectByPrimaryKey(id);
 		if(order!=null)
 		{
+			
 			for(int i=0;i<foodDetails.size();i++)
 			{
 				JSONObject foodDetail=JSONObject.fromObject(foodDetails.get(i));
@@ -46,6 +52,7 @@ public class OrderService {
 				foodData.add(food);
 			}
 			order.setFooddetails(foodData.toString());
+			fds.add(order.getFooddetails());
 			System.out.println(foodData.toString());
 			orderTableMapper.updateByPrimaryKey(order);
 		}
@@ -78,6 +85,28 @@ public class OrderService {
 		}
 		return orderIds;
 	}
-
+	
+	
+	public Foodcomb selectByComb(String comb) {
+		return foodcombMapper.selectByComb(comb);
+	}
+	public void updateFC(Foodcomb fc) {
+		foodcombMapper.updateByPrimaryKey(fc);
+	}	
+	public void insertFC(Foodcomb fc) {
+		foodcombMapper.insert(fc);
+	}
+	public void insertNewFC(String conbName, int count) {
+		Foodcomb fc = new Foodcomb();
+		fc.setComb(conbName);
+		fc.setCount(count);
+		insertFC(fc);
+	}
+	
+	//for test. will be useless
+	public List<String> sele(int number){
+		return orderTableMapper.selectLatest(number);
+	}
+	
 	}
 

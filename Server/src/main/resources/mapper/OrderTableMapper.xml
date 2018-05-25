@@ -7,6 +7,9 @@
     <result column="tablecode" property="tablecode" jdbcType="CHAR" />
     <result column="fooddetails" property="fooddetails" jdbcType="CHAR" />
   </resultMap>
+  <resultMap id="fooddetails" type="java.lang.String">
+  	<result column="fooddetails" property="fooddetails" jdbcType="CHAR" />
+  </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ordertable
     where id = #{id,jdbcType=CHAR}
@@ -32,5 +35,15 @@
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, opentime, tablecode, fooddetails
     from ordertable
+  </select>
+  <select id="selectAllFoodDetail" resultMap="fooddetails">
+  	select fooddetails 
+  	from ordertable
+  </select>
+  <select id = "selectLatest" resultMap = "fooddetails" parameterType="java.lang.Integer" >
+  	select fooddetails 
+  	from ordertable
+  	order by id desc
+  	limit #{number,jdbcType=INTEGER}
   </select>
 </mapper>
