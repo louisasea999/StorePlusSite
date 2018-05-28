@@ -36,11 +36,7 @@
     select id, opentime, tablecode, fooddetails
     from ordertable
   </select>
-<<<<<<< HEAD
-  
-  <select id="selectByOpentime" resultMap="BaseResultMap" parameterType="java.util.Date" >
-  
-=======
+
   <select id="selectAllFoodDetail" resultMap="fooddetails">
   	select fooddetails 
   	from ordertable
@@ -50,6 +46,6 @@
   	from ordertable
   	order by id desc
   	limit #{number,jdbcType=INTEGER}
->>>>>>> c40b9de48573c013f20d20c4e70edf3d9aa51a6e
+
   </select>
 </mapper>

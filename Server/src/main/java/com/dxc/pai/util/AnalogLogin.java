@@ -194,7 +194,7 @@ public class AnalogLogin {
 			
 			httpURLConnection.connect();
 			//get status code
-			in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+			in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "utf8"));
 			String line;
 			StringBuilder sb = new StringBuilder();
 			while ((line = in.readLine()) != null) {
