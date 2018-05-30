@@ -3,6 +3,7 @@ package com.dxc.pai.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -101,6 +102,7 @@ public class LoginSimulationService {
 		}
 		else{
 			fc.setCount(fc.getCount()+count);
+			fc.setUpdatetime(new Date());
 			orderService.updateFC(fc);
 		}		
 	}
