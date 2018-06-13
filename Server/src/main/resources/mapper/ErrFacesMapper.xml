@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dxc.pai.dao.ErrFacesMapper">
+  <resultMap id="BaseResultMap" type="com.dxc.pai.model.ErrFaces">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="picpath" jdbcType="VARCHAR" property="picpath" />
+    <result column="errmsg" jdbcType="VARCHAR" property="errmsg" />
+    <result column="chstamp" jdbcType="TIMESTAMP" property="chstamp" />
+    <result column="fixstatus" jdbcType="VARCHAR" property="fixstatus" />
+    <result column="snapint" jdbcType="INTEGER" property="snapint" />
+    <result column="snapseq" jdbcType="INTEGER" property="snapseq" />
+    <result column="fixmsg" jdbcType="VARCHAR" property="fixmsg" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from find_errfaces
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dxc.pai.model.ErrFaces">
+    insert into find_errfaces (id, picpath, errmsg, 
+      chstamp, fixstatus, snapint, 
+      snapseq, fixmsg)
+    values (#{id,jdbcType=INTEGER}, #{picpath,jdbcType=VARCHAR}, #{errmsg,jdbcType=VARCHAR}, 
+      #{chstamp,jdbcType=TIMESTAMP}, #{fixstatus,jdbcType=VARCHAR}, #{snapint,jdbcType=INTEGER}, 
+      #{snapseq,jdbcType=INTEGER}, #{fixmsg,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.dxc.pai.model.ErrFaces">
+    update find_errfaces
+    set picpath = #{picpath,jdbcType=VARCHAR},
+      errmsg = #{errmsg,jdbcType=VARCHAR},
+      chstamp = #{chstamp,jdbcType=TIMESTAMP},
+      fixstatus = #{fixstatus,jdbcType=VARCHAR},
+      snapint = #{snapint,jdbcType=INTEGER},
+      snapseq = #{snapseq,jdbcType=INTEGER},
+      fixmsg = #{fixmsg,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, picpath, errmsg, chstamp, fixstatus, snapint, snapseq, fixmsg
+    from find_errfaces
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, picpath, errmsg, chstamp, fixstatus, snapint, snapseq, fixmsg
+    from find_errfaces
+  </select>
+  </mapper>

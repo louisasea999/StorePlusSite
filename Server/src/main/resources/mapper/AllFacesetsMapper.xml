@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dxc.pai.dao.AllFacesetsMapper">
+  <resultMap id="BaseResultMap" type="com.dxc.pai.model.AllFacesets">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="faceset_token" jdbcType="VARCHAR" property="facesetToken" />
+    <result column="face_tokens" jdbcType="OTHER" property="faceTokens" />
+    <result column="face_count" jdbcType="INTEGER" property="faceCount" />
+    <result column="outer_id" jdbcType="VARCHAR" property="outerId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from find_allfacesets
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dxc.pai.model.AllFacesets">
+    insert into find_allfacesets (id, faceset_token, face_tokens, 
+      face_count, outer_id)
+    values (#{id,jdbcType=INTEGER}, #{facesetToken,jdbcType=VARCHAR}, #{faceTokens,jdbcType=OTHER}, 
+      #{faceCount,jdbcType=INTEGER}, #{outerId,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.dxc.pai.model.AllFacesets">
+    update find_allfacesets
+    set faceset_token = #{facesetToken,jdbcType=VARCHAR},
+      face_tokens = #{faceTokens,jdbcType=OTHER},
+      face_count = #{faceCount,jdbcType=INTEGER},
+      outer_id = #{outerId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, faceset_token, face_tokens, face_count, outer_id
+    from find_allfacesets
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, faceset_token, face_tokens, face_count, outer_id
+    from find_allfacesets
+  </select>
+
+  
+</mapper>
