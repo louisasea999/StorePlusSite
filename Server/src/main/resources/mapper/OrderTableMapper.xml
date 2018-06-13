@@ -35,9 +35,8 @@
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, opentime, tablecode, fooddetails
     from ordertable
-  </select> 
+  </select>
 
-  
   <select id="selectAllFoodDetail" resultMap="fooddetails">
   	select fooddetails 
   	from ordertable
