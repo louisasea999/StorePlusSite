@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dxc.pai.dao.AllFacesMapper">
+  <resultMap id="BaseResultMap" type="com.dxc.pai.model.AllFaces">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="imageid" jdbcType="VARCHAR" property="imageid" />
+    <result column="facetoken" jdbcType="VARCHAR" property="facetoken" />
+    <result column="videopath" jdbcType="VARCHAR" property="videopath" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="eyestatus" jdbcType="OTHER" property="eyestatus" />
+    <result column="emotion" jdbcType="OTHER" property="emotion" />
+    <result column="ethnicity" jdbcType="VARCHAR" property="ethnicity" />
+    <result column="male_score" jdbcType="DOUBLE" property="maleScore" />
+    <result column="female_score" jdbcType="DOUBLE" property="femaleScore" />
+    <result column="skinstatus" jdbcType="OTHER" property="skinstatus" />
+    <result column="freeinfo" jdbcType="VARCHAR" property="freeinfo" />
+    <result column="faceset_outerid" jdbcType="VARCHAR" property="facesetOuterid" />
+    <result column="faceset_status" jdbcType="VARCHAR" property="facesetStatus" />
+    <result column="picname" jdbcType="VARCHAR" property="picname" />
+    <result column="pictime" jdbcType="TIMESTAMP" property="pictime" />
+    <result column="snapint" jdbcType="INTEGER" property="snapint" />
+    <result column="snapseq" jdbcType="INTEGER" property="snapseq" />
+    <result column="blur" jdbcType="OTHER" property="blur" />
+    <result column="eyegaze" jdbcType="OTHER" property="eyegaze" />
+    <result column="facequality" jdbcType="OTHER" property="facequality" />
+    <result column="headpose" jdbcType="OTHER" property="headpose" />
+    <result column="mostlike_score" jdbcType="DOUBLE" property="mostlikeScore" />
+    <result column="mouthstatus" jdbcType="OTHER" property="mouthstatus" />
+    <result column="smile" jdbcType="OTHER" property="smile" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from find_allfaces
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dxc.pai.model.AllFaces">
+    insert into find_allfaces (id, imageid, facetoken, 
+      videopath, gender, age, 
+      eyestatus, emotion, ethnicity, 
+      male_score, female_score, skinstatus, 
+      freeinfo, faceset_outerid, faceset_status, 
+      picname, pictime, snapint, 
+      snapseq, blur, eyegaze, 
+      facequality, headpose, mostlike_score, 
+      mouthstatus, smile)
+    values (#{id,jdbcType=INTEGER}, #{imageid,jdbcType=VARCHAR}, #{facetoken,jdbcType=VARCHAR}, 
+      #{videopath,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{eyestatus,jdbcType=OTHER}, #{emotion,jdbcType=OTHER}, #{ethnicity,jdbcType=VARCHAR}, 
+      #{maleScore,jdbcType=DOUBLE}, #{femaleScore,jdbcType=DOUBLE}, #{skinstatus,jdbcType=OTHER}, 
+      #{freeinfo,jdbcType=VARCHAR}, #{facesetOuterid,jdbcType=VARCHAR}, #{facesetStatus,jdbcType=VARCHAR}, 
+      #{picname,jdbcType=VARCHAR}, #{pictime,jdbcType=TIMESTAMP}, #{snapint,jdbcType=INTEGER}, 
+      #{snapseq,jdbcType=INTEGER}, #{blur,jdbcType=OTHER}, #{eyegaze,jdbcType=OTHER}, 
+      #{facequality,jdbcType=OTHER}, #{headpose,jdbcType=OTHER}, #{mostlikeScore,jdbcType=DOUBLE}, 
+      #{mouthstatus,jdbcType=OTHER}, #{smile,jdbcType=OTHER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.dxc.pai.model.AllFaces">
+    update find_allfaces
+    set imageid = #{imageid,jdbcType=VARCHAR},
+      facetoken = #{facetoken,jdbcType=VARCHAR},
+      videopath = #{videopath,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      eyestatus = #{eyestatus,jdbcType=OTHER},
+      emotion = #{emotion,jdbcType=OTHER},
+      ethnicity = #{ethnicity,jdbcType=VARCHAR},
+      male_score = #{maleScore,jdbcType=DOUBLE},
+      female_score = #{femaleScore,jdbcType=DOUBLE},
+      skinstatus = #{skinstatus,jdbcType=OTHER},
+      freeinfo = #{freeinfo,jdbcType=VARCHAR},
+      faceset_outerid = #{facesetOuterid,jdbcType=VARCHAR},
+      faceset_status = #{facesetStatus,jdbcType=VARCHAR},
+      picname = #{picname,jdbcType=VARCHAR},
+      pictime = #{pictime,jdbcType=TIMESTAMP},
+      snapint = #{snapint,jdbcType=INTEGER},
+      snapseq = #{snapseq,jdbcType=INTEGER},
+      blur = #{blur,jdbcType=OTHER},
+      eyegaze = #{eyegaze,jdbcType=OTHER},
+      facequality = #{facequality,jdbcType=OTHER},
+      headpose = #{headpose,jdbcType=OTHER},
+      mostlike_score = #{mostlikeScore,jdbcType=DOUBLE},
+      mouthstatus = #{mouthstatus,jdbcType=OTHER},
+      smile = #{smile,jdbcType=OTHER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, imageid, facetoken, videopath, gender, age, eyestatus, emotion, ethnicity, 
+    male_score, female_score, skinstatus, freeinfo, faceset_outerid, faceset_status, 
+    picname, pictime, snapint, snapseq, blur, eyegaze, facequality, headpose, mostlike_score, 
+    mouthstatus, smile
+    from find_allfaces
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, imageid, facetoken, videopath, gender, age, eyestatus, emotion, ethnicity, 
+    male_score, female_score, skinstatus, freeinfo, faceset_outerid, faceset_status, 
+    picname, pictime, snapint, snapseq, blur, eyegaze, facequality, headpose, mostlike_score, 
+    mouthstatus, smile
+    from find_allfaces
+  </select>
+  
+  <select id="getPersons" resultMap="BaseResultMap"> 
+    select find_allfaces.*
+    from (select id,MAX(mostlike_score) as scoress from find_allfaces group by faceset_outerid, id) as ids,
+    find_allfaces 
+    where ids.id=find_allfaces.id
+  </select>
+  
+  
+ 
+</mapper>
