@@ -1,6 +1,7 @@
 package com.dxc.pai.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,10 @@ public class OrderService {
 
 	@Autowired
 	private FoodcombMapper foodcombMapper;
+	
+	public List<OrderTable> selectFirst(int num){
+		return orderTableMapper.selectFirst(num);
+	}
 	
 	public void updateOrderDetail(String orderData, String id, List<String> fds)
 	{		
@@ -193,6 +198,10 @@ public class OrderService {
 	//for test. will be useless
 	public List<String> sele(int number){
 		return orderTableMapper.selectLatest(number);
+	}
+	
+	public List<OrderTable> getRange(Date start, Date end){
+		return orderTableMapper.getRange(start, end);
 	}
 	
 	}

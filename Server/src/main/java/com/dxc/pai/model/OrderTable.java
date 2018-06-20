@@ -11,6 +11,8 @@ public class OrderTable {
 
     private String fooddetails;
 
+    private Integer findAllfacesId;
+
     public String getId() {
         return id;
     }
@@ -40,7 +42,14 @@ public class OrderTable {
     }
 
     public void setFooddetails(String fooddetails) {
-        this.fooddetails = fooddetails;
+        this.fooddetails = fooddetails == null ? null : fooddetails.trim();
     }
-    
+
+    public Integer getFindAllfacesId() {
+        return findAllfacesId;
+    }
+
+    public void setFindAllfacesId(Integer findAllfacesId) {
+        this.findAllfacesId = findAllfacesId;
+    }
 }

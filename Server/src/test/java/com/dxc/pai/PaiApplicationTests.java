@@ -26,11 +26,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.dxc.pai.model.FindAllfaces;
+import com.dxc.pai.model.OrderTable;
 import com.dxc.pai.model.User;
+import com.dxc.pai.service.FaceServices;
 import com.dxc.pai.service.OrderService;
 import com.dxc.pai.service.UserService;
 import com.dxc.pai.util.AnalogLogin;
 import com.dxc.pai.util.SortChinese;
+import com.dxc.pai.util.Util;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -45,6 +49,150 @@ public class PaiApplicationTests {
 	@Autowired
 	public OrderService os;
 	
+	@Autowired
+	public FaceServices fs;
+	
+	@Test
+	public void getRange() {
+		List<OrderTable> li = os.getRange(new Date(new Date().getTime() - 48*60*60*1000),new Date(new Date().getTime() - 24*60*60*1000));
+		System.out.println(li.size());
+	}
+	
+	@Test
+	public void getAllData() {
+		/*
+		List<FindAllfaces> fsd = fs.selectAllFaceData();
+		fsd.stream()
+		.peek(ele->ele.setPictime(new Date(ele.getPictime().getTime()-2*24*60*60*1000)))
+		.forEach(ele->fs.updateFace(ele));
+		*/
+		/*fs.selectAllFaceData()
+		.stream()
+		.map(ele->ele.getPictime().getTime())
+		.sorted()
+		.forEach(System.out::println);*/
+		/*
+		fs.selectAllFaces().forEach(System.out::println);
+		*/
+		
+		
+		///* the two list should be two params
+		List<FindAllfaces> facesToBeConn = fs.selectAllFaceData();
+		List<OrderTable> ordersToBeConn = os.selectFirst(50).stream()
+		.sorted(Comparator.comparing(OrderTable::getOpentime))
+		.filter(ele->ele.getOpentime().getTime()>=1524801743296l && ele.getOpentime().getTime()<=1524802070296l)
+		.collect(Collectors.toList());
+		//*/
+		
+		//os.sele(10);
+		for(OrderTable item : ordersToBeConn) {
+			List<minFaceObj> range = facesToBeConn.stream()
+					.filter(ele->ele.getPictime().getTime() >= item.getOpentime().getTime() - 30*1000)
+					.filter(ele->ele.getPictime().getTime() <= item.getOpentime().getTime() + 30*1000)
+					.map(ele->new minFaceObj(ele.getId(), ele.getPictime(), ele.getFacesetOuterid()))
+					.collect(Collectors.toList());
+			minFaceObj targetMinFaceObj = getCon(range, item);
+			if(targetMinFaceObj == null) {
+				item.setFindAllfacesId(-1);
+				continue;
+			}
+			item.setFindAllfacesId(targetMinFaceObj.getId());
+			
+			///* for print
+			FindAllfaces targetFace = facesToBeConn.stream()
+								.filter(ele->ele.getId() == targetMinFaceObj.getId())
+								.findFirst().get();
+			System.out.println("\n-----------------------------------------------------------------------");
+			System.out.println("FaceID: "+targetFace.getId()+"---orderId: "+item.getId());
+			System.out.println("faceOuterID: "+targetFace.getFacesetOuterid()+"---order: "+item.getFooddetails());
+			System.out.println("faceTime: "+targetFace.getPictime()+"---orderTime: "+item.getOpentime());
+			//*/
+			
+			facesToBeConn = facesToBeConn.stream()
+						.filter(ele->ele.getFacesetOuterid() != targetMinFaceObj.getFacesetOuterid())
+						.collect(Collectors.toList());
+			
+			
+		}
+		//fsd.stream().forEach(ele->System.out.println(ele.getPictime().getTime()));
+		
+	}
+	public minFaceObj getCon(List<minFaceObj> range, OrderTable item) {
+		//System.out.println("now in the getCon func, range.size():"+range.size());
+		if(range.size()==0 || item == null) {
+			return null;
+		}
+		List<List<minFaceObj>> fsl = (List<List<minFaceObj>>) range.stream()
+				.peek(ele->ele.setPictime(new Date(Math.abs(ele.getPictime().getTime()-item.getOpentime().getTime()))))
+				.sorted(Comparator.comparing(minFaceObj::getPictime))
+				.collect(Collectors.groupingBy((ele)->ele.getFacesetOuterid()))
+				.values()
+				.stream()
+				.sorted((n1,n2)->((Integer)n2.size()).compareTo(n1.size()))
+				.collect(Collectors.toList());
+		//System.out.println("fsl.size() before:"+fsl.size());
+		
+		//fsl.forEach(ele->System.out.println(ele.size()));
+		
+		for(int i = fsl.size()-1; i >= 0; i--) {
+			if(fsl.get(i).size()==fsl.get(0).size()) {
+				fsl = fsl.subList(0, i+1);
+				break;
+			}
+		}
+		//System.out.println("fsl.size() after:"+fsl.size());
+		return fsl.stream().reduce((li1,li2)->mergeList(li1,li2))
+				.get()
+				.stream()
+				.sorted(Comparator.comparing(minFaceObj::getPictime))
+				.findFirst()
+				.get();
+		//return finalFS;
+	}
+	public <T> List<T> mergeList(List<T> li1, List<T> li2){
+		li1.addAll(li2);
+		return li1;
+	}
+	class minFaceObj{
+		private Integer id;
+		private Date pictime;
+		private String facesetOuterid;
+		public minFaceObj() {}
+		public minFaceObj(int id, Date pictime, String facesetOuterid) {
+			this.id = id;
+			this.pictime = pictime;
+			this.facesetOuterid = facesetOuterid;
+		}
+	    public Integer getId() {
+	        return id;
+	    }
+
+	    public void setId(Integer id) {
+	        this.id = id;
+	    }
+	    
+	    public String getFacesetOuterid() {
+	        return facesetOuterid;
+	    }
+
+	    public void setFacesetOuterid(String facesetOuterid) {
+	        this.facesetOuterid = facesetOuterid == null ? null : facesetOuterid.trim();
+	    }
+
+	    public Date getPictime() {
+	        return pictime;
+	    }
+
+	    public void setPictime(Date pictime) {
+	        this.pictime = pictime;
+	    }
+	}
+	//new Date(1524801743296l)), Util.getFormatDateAll(new Date(1524802070296l)))
+
+	
+	
+	
+	
 	@Test
 	public void contextLoads1() {
 		os.getSalesData(true);
@@ -53,10 +201,7 @@ public class PaiApplicationTests {
 		
 		
 		os.getSalesDataPercent(false);
-		
-//		AnalogLogin al = new AnalogLogin(orderService);
-//		al.loginAndGetData();
-		
+
 		
 	}
 	
@@ -189,10 +334,11 @@ public class PaiApplicationTests {
 		.stream()
 		.collect(Collectors.groupingBy(e->e)).forEach((key,val) -> aFuncToSave(key, val.size()));
 	}
+	/*
 	public List<String> mergeList(List<String> li1, List<String> li2){
 		li1.addAll(li2);
 		return li1;
-	}
+	}*/
 	
 	@Test
 	public void contextLoads() {
@@ -268,7 +414,7 @@ public class PaiApplicationTests {
 	}
 	
 	@Test
-	public void rett() {		
+	public void rett() {
 		/*int[] arr1 = new int[]{1,2,3,4};
 		int[] arr2 = new int[]{6,7,8};
 		IntStream.of(ArrayUtils.addAll(arr1,arr2)).forEach(x -> System.out.print(x+","));
