@@ -54,8 +54,23 @@ public class PaiApplicationTests {
 	
 	@Test
 	public void getRange() {
-		List<OrderTable> li = os.getRange(new Date(new Date().getTime() - 48*60*60*1000),new Date(new Date().getTime() - 24*60*60*1000));
-		System.out.println(li.size());
+		/*List<OrderTable> li = os.getRange(new Date(new Date().getTime() - 24*60*60*1000),new Date(new Date().getTime() - 1*60*60*1000));
+		System.out.println(li.size());*/
+		
+		///* the two list should be two params
+		List<FindAllfaces> facesToBeConn = fs.selectAllFaceData().stream()
+				.sorted(Comparator.comparing(FindAllfaces::getPictime))
+				.collect(Collectors.toList());
+		/*List<OrderTable> ordersToBeConn = os.selectFirst(50).stream()
+		.sorted(Comparator.comparing(OrderTable::getOpentime))
+		.filter(ele->ele.getOpentime().getTime()>=1524801743296l && ele.getOpentime().getTime()<=1524802070296l)
+		.collect(Collectors.toList());*/
+		System.out.println(facesToBeConn.get(0).getPictime());
+		System.out.println(facesToBeConn.get(facesToBeConn.size()-1).getPictime());
+		List<OrderTable> ordersToBeConn = os.getRange(facesToBeConn.get(0).getPictime(),facesToBeConn.get(facesToBeConn.size()-1).getPictime());
+		System.out.println(ordersToBeConn.size());
+		//*/
+		
 	}
 	
 	@Test
@@ -63,7 +78,7 @@ public class PaiApplicationTests {
 		/*
 		List<FindAllfaces> fsd = fs.selectAllFaceData();
 		fsd.stream()
-		.peek(ele->ele.setPictime(new Date(ele.getPictime().getTime()-2*24*60*60*1000)))
+		.peek(ele->ele.setPictime(new Date(ele.getPictime().getTime()-1*24*60*60*1000)))
 		.forEach(ele->fs.updateFace(ele));
 		*/
 		/*fs.selectAllFaceData()
@@ -77,21 +92,27 @@ public class PaiApplicationTests {
 		
 		
 		///* the two list should be two params
-		List<FindAllfaces> facesToBeConn = fs.selectAllFaceData();
-		List<OrderTable> ordersToBeConn = os.selectFirst(50).stream()
+		List<FindAllfaces> facesToBeConn = fs.selectAllFaceData().stream()
+				.sorted(Comparator.comparing(FindAllfaces::getPictime))
+				.collect(Collectors.toList());
+		/*List<OrderTable> ordersToBeConn = os.selectFirst(50).stream()
 		.sorted(Comparator.comparing(OrderTable::getOpentime))
 		.filter(ele->ele.getOpentime().getTime()>=1524801743296l && ele.getOpentime().getTime()<=1524802070296l)
-		.collect(Collectors.toList());
+		.collect(Collectors.toList());*/
+		System.out.println(facesToBeConn.get(0).getPictime());
+		System.out.println(facesToBeConn.get(facesToBeConn.size()-1).getPictime());
+		List<OrderTable> ordersToBeConn = os.getRange(facesToBeConn.get(0).getPictime(),facesToBeConn.get(facesToBeConn.size()-1).getPictime());
 		//*/
 		
 		//os.sele(10);
 		for(OrderTable item : ordersToBeConn) {
-			List<minFaceObj> range = facesToBeConn.stream()
+			List<FindAllfaces> faceRange = facesToBeConn.stream()
 					.filter(ele->ele.getPictime().getTime() >= item.getOpentime().getTime() - 30*1000)
 					.filter(ele->ele.getPictime().getTime() <= item.getOpentime().getTime() + 30*1000)
-					.map(ele->new minFaceObj(ele.getId(), ele.getPictime(), ele.getFacesetOuterid()))
+					//.map(ele->new minFaceObj(ele.getId(), ele.getPictime(), ele.getFacesetOuterid()))
+					.map(ele->(FindAllfaces)ele.clone())
 					.collect(Collectors.toList());
-			minFaceObj targetMinFaceObj = getCon(range, item);
+			FindAllfaces targetMinFaceObj = getTargetFace(faceRange, item);
 			if(targetMinFaceObj == null) {
 				item.setFindAllfacesId(-1);
 				continue;
@@ -111,43 +132,41 @@ public class PaiApplicationTests {
 			facesToBeConn = facesToBeConn.stream()
 						.filter(ele->ele.getFacesetOuterid() != targetMinFaceObj.getFacesetOuterid())
 						.collect(Collectors.toList());
-			
-			
 		}
-		//fsd.stream().forEach(ele->System.out.println(ele.getPictime().getTime()));
+		//ordersToBeConn.stream().forEach(ele->os.updateOrderTable(ele));
+		facesToBeConn.stream().forEach(ele->System.out.println(ele.getPictime()));
 		
 	}
-	public minFaceObj getCon(List<minFaceObj> range, OrderTable item) {
-		//System.out.println("now in the getCon func, range.size():"+range.size());
-		if(range.size()==0 || item == null) {
+	public FindAllfaces getTargetFace(List<FindAllfaces> faceRange, OrderTable item) {
+		if(faceRange.size()==0 || item == null) {
 			return null;
 		}
-		List<List<minFaceObj>> fsl = (List<List<minFaceObj>>) range.stream()
-				.peek(ele->ele.setPictime(new Date(Math.abs(ele.getPictime().getTime()-item.getOpentime().getTime()))))
-				.sorted(Comparator.comparing(minFaceObj::getPictime))
-				.collect(Collectors.groupingBy((ele)->ele.getFacesetOuterid()))
-				.values()
-				.stream()
-				.sorted((n1,n2)->((Integer)n2.size()).compareTo(n1.size()))
-				.collect(Collectors.toList());
-		//System.out.println("fsl.size() before:"+fsl.size());
-		
-		//fsl.forEach(ele->System.out.println(ele.size()));
-		
-		for(int i = fsl.size()-1; i >= 0; i--) {
-			if(fsl.get(i).size()==fsl.get(0).size()) {
-				fsl = fsl.subList(0, i+1);
-				break;
+		List<List<FindAllfaces>> fsl = new ArrayList<List<FindAllfaces>>();
+		try {
+			fsl = (List<List<FindAllfaces>>) faceRange.stream()
+					.peek(ele->ele.setPictime(new Date(Math.abs(ele.getPictime().getTime()-item.getOpentime().getTime()))))
+					.sorted(Comparator.comparing(FindAllfaces::getPictime))
+					.collect(Collectors.groupingBy((ele)->ele.getFacesetOuterid()))
+					.values()
+					.stream()
+					.sorted((n1,n2)->((Integer)n2.size()).compareTo(n1.size()))
+					.collect(Collectors.toList());
+			
+			for(int i = fsl.size()-1; i >= 0; i--) {
+				if(fsl.get(i).size()==fsl.get(0).size()) {
+					fsl = fsl.subList(0, i+1);
+					break;
+				}
 			}
+		}catch(Exception ex) {
+			return null;
 		}
-		//System.out.println("fsl.size() after:"+fsl.size());
 		return fsl.stream().reduce((li1,li2)->mergeList(li1,li2))
 				.get()
 				.stream()
-				.sorted(Comparator.comparing(minFaceObj::getPictime))
+				.sorted(Comparator.comparing(FindAllfaces::getPictime))
 				.findFirst()
 				.get();
-		//return finalFS;
 	}
 	public <T> List<T> mergeList(List<T> li1, List<T> li2){
 		li1.addAll(li2);

@@ -62,8 +62,11 @@ public class OrderService {
 			order.setFooddetails(foodData.toString());
 			fds.add(order.getFooddetails());
 			System.out.println(foodData.toString());
-			orderTableMapper.updateByPrimaryKey(order);
+			updateOrderTable(order);
 		}
+	}
+	public void updateOrderTable(OrderTable order) {
+		orderTableMapper.updateByPrimaryKey(order);
 	}
 	
 	/**

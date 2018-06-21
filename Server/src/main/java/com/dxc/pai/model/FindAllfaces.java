@@ -2,7 +2,7 @@ package com.dxc.pai.model;
 
 import java.util.Date;
 
-public class FindAllfaces {
+public class FindAllfaces implements Cloneable {
     private Integer id;
 
     private String imageid;
@@ -54,7 +54,17 @@ public class FindAllfaces {
     private Object mouthstatus;
 
     private Object smile;
-
+    
+    @Override
+    public Object clone() {
+    	FindAllfaces fal = null;
+    	try {
+    		fal = (FindAllfaces)super.clone();
+    	}catch(CloneNotSupportedException e) {
+    		e.printStackTrace();
+    	}
+    	return fal;
+    }
     public Integer getId() {
         return id;
     }
