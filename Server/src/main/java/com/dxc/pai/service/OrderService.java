@@ -1,6 +1,7 @@
 package com.dxc.pai.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,10 @@ public class OrderService {
 	@Autowired
 	private FoodcombMapper foodcombMapper;
 	
+	public List<OrderTable> selectFirst(int num){
+		return orderTableMapper.selectFirst(num);
+	}
+	
 	public void updateOrderDetail(String orderData, String id, List<String> fds)
 	{		
 		JSONObject orderDetail = (JSONObject) JSONObject.fromObject(orderData.toString()).get("data");
@@ -57,8 +62,11 @@ public class OrderService {
 			order.setFooddetails(foodData.toString());
 			fds.add(order.getFooddetails());
 			System.out.println(foodData.toString());
-			orderTableMapper.updateByPrimaryKey(order);
+			updateOrderTable(order);
 		}
+	}
+	public void updateOrderTable(OrderTable order) {
+		orderTableMapper.updateByPrimaryKey(order);
 	}
 	
 	/**
@@ -193,6 +201,10 @@ public class OrderService {
 	//for test. will be useless
 	public List<String> sele(int number){
 		return orderTableMapper.selectLatest(number);
+	}
+	
+	public List<OrderTable> getRange(Date start, Date end){
+		return orderTableMapper.getRange(start, end);
 	}
 	
 	}

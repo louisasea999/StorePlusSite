@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dxc.pai.dao.FindAllfacesMapper" >
+  <resultMap id="BaseResultMap" type="com.dxc.pai.model.FindAllfaces" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="imageid" property="imageid" jdbcType="VARCHAR" />
+    <result column="facetoken" property="facetoken" jdbcType="VARCHAR" />
+    <result column="videopath" property="videopath" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="eyestatus" property="eyestatus" jdbcType="OTHER" />
+    <result column="emotion" property="emotion" jdbcType="OTHER" />
+    <result column="ethnicity" property="ethnicity" jdbcType="VARCHAR" />
+    <result column="male_score" property="maleScore" jdbcType="DOUBLE" />
+    <result column="female_score" property="femaleScore" jdbcType="DOUBLE" />
+    <result column="skinstatus" property="skinstatus" jdbcType="OTHER" />
+    <result column="freeinfo" property="freeinfo" jdbcType="VARCHAR" />
+    <result column="faceset_outerid" property="facesetOuterid" jdbcType="VARCHAR" />
+    <result column="faceset_status" property="facesetStatus" jdbcType="VARCHAR" />
+    <result column="picname" property="picname" jdbcType="VARCHAR" />
+    <result column="pictime" property="pictime" jdbcType="TIMESTAMP" />
+    <result column="snapint" property="snapint" jdbcType="INTEGER" />
+    <result column="snapseq" property="snapseq" jdbcType="INTEGER" />
+    <result column="blur" property="blur" jdbcType="OTHER" />
+    <result column="eyegaze" property="eyegaze" jdbcType="OTHER" />
+    <result column="facequality" property="facequality" jdbcType="OTHER" />
+    <result column="headpose" property="headpose" jdbcType="OTHER" />
+    <result column="mostlike_score" property="mostlikeScore" jdbcType="DOUBLE" />
+    <result column="mouthstatus" property="mouthstatus" jdbcType="OTHER" />
+    <result column="smile" property="smile" jdbcType="OTHER" />
+  </resultMap>
+  <resultMap id="facesetOuterid" type="java.lang.String" >
+  	<result column="faceset_outerid" property="facesetOuterid" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from find_allfaces
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dxc.pai.model.FindAllfaces" >
+    insert into find_allfaces (id, imageid, facetoken, 
+      videopath, gender, age, 
+      eyestatus, emotion, ethnicity, 
+      male_score, female_score, skinstatus, 
+      freeinfo, faceset_outerid, faceset_status, 
+      picname, pictime, snapint, 
+      snapseq, blur, eyegaze, 
+      facequality, headpose, mostlike_score, 
+      mouthstatus, smile)
+    values (#{id,jdbcType=INTEGER}, #{imageid,jdbcType=VARCHAR}, #{facetoken,jdbcType=VARCHAR}, 
+      #{videopath,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{eyestatus,jdbcType=OTHER}, #{emotion,jdbcType=OTHER}, #{ethnicity,jdbcType=VARCHAR}, 
+      #{maleScore,jdbcType=DOUBLE}, #{femaleScore,jdbcType=DOUBLE}, #{skinstatus,jdbcType=OTHER}, 
+      #{freeinfo,jdbcType=VARCHAR}, #{facesetOuterid,jdbcType=VARCHAR}, #{facesetStatus,jdbcType=VARCHAR}, 
+      #{picname,jdbcType=VARCHAR}, #{pictime,jdbcType=TIMESTAMP}, #{snapint,jdbcType=INTEGER}, 
+      #{snapseq,jdbcType=INTEGER}, #{blur,jdbcType=OTHER}, #{eyegaze,jdbcType=OTHER}, 
+      #{facequality,jdbcType=OTHER}, #{headpose,jdbcType=OTHER}, #{mostlikeScore,jdbcType=DOUBLE}, 
+      #{mouthstatus,jdbcType=OTHER}, #{smile,jdbcType=OTHER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.dxc.pai.model.FindAllfaces" >
+    update find_allfaces
+    set imageid = #{imageid,jdbcType=VARCHAR},
+      facetoken = #{facetoken,jdbcType=VARCHAR},
+      videopath = #{videopath,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      eyestatus = #{eyestatus,jdbcType=OTHER},
+      emotion = #{emotion,jdbcType=OTHER},
+      ethnicity = #{ethnicity,jdbcType=VARCHAR},
+      male_score = #{maleScore,jdbcType=DOUBLE},
+      female_score = #{femaleScore,jdbcType=DOUBLE},
+      skinstatus = #{skinstatus,jdbcType=OTHER},
+      freeinfo = #{freeinfo,jdbcType=VARCHAR},
+      faceset_outerid = #{facesetOuterid,jdbcType=VARCHAR},
+      faceset_status = #{facesetStatus,jdbcType=VARCHAR},
+      picname = #{picname,jdbcType=VARCHAR},
+      pictime = #{pictime,jdbcType=TIMESTAMP},
+      snapint = #{snapint,jdbcType=INTEGER},
+      snapseq = #{snapseq,jdbcType=INTEGER},
+      blur = #{blur,jdbcType=OTHER},
+      eyegaze = #{eyegaze,jdbcType=OTHER},
+      facequality = #{facequality,jdbcType=OTHER},
+      headpose = #{headpose,jdbcType=OTHER},
+      mostlike_score = #{mostlikeScore,jdbcType=DOUBLE},
+      mouthstatus = #{mouthstatus,jdbcType=OTHER},
+      smile = #{smile,jdbcType=OTHER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, imageid, facetoken, videopath, gender, age, eyestatus, emotion, ethnicity, 
+    male_score, female_score, skinstatus, freeinfo, faceset_outerid, faceset_status, 
+    picname, pictime, snapint, snapseq, blur, eyegaze, facequality, headpose, mostlike_score, 
+    mouthstatus, smile
+    from find_allfaces
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, imageid, facetoken, videopath, gender, age, eyestatus, emotion, ethnicity, 
+    male_score, female_score, skinstatus, freeinfo, faceset_outerid, faceset_status, 
+    picname, pictime, snapint, snapseq, blur, eyegaze, facequality, headpose, mostlike_score, 
+    mouthstatus, smile
+    from find_allfaces
+  </select>
+ 
+  <select id="selectAllFace" resultMap="facesetOuterid">
+  	select faceset_outerid from find_allfaces
+  </select>
+</mapper>
