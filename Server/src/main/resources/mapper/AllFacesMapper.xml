@@ -99,10 +99,10 @@
   </select>
   
   <select id="getPersons" resultMap="BaseResultMap"> 
-    select find_allfaces.*
-    from (select id,MAX(mostlike_score) as scoress from find_allfaces group by faceset_outerid, id) as ids,
+    select find_allfaces.* 
+    from (select faceset_outerid,MAX(mostlike_score) as score from find_allfaces group by faceset_outerid) as ids, 
     find_allfaces 
-    where ids.id=find_allfaces.id
+    where ids.faceset_outerid=find_allfaces.faceset_outerid and ids.score = find_allfaces.mostlike_score
   </select>
   
   
