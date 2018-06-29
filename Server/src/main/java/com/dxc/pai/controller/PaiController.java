@@ -49,6 +49,10 @@ public class PaiController {
 		//List<User> li = us.getAllUser();
 		return "greet/hello";
 	}
+    @RequestMapping("/otf")
+	public String orderToFace(HttpSession session){
+		return "order/index";
+	}
 	
 	@RequestMapping("/lu")
 	public String listUser(HttpSession session, Model model) {
