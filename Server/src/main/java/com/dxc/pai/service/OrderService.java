@@ -5,15 +5,20 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dxc.pai.dao.AllFacesMapper;
 import com.dxc.pai.dao.FoodcombMapper;
 import com.dxc.pai.dao.OrderTableMapper;
+import com.dxc.pai.model.AllFaces;
 import com.dxc.pai.model.Foodcomb;
 import com.dxc.pai.model.OrderTable;
+import com.dxc.pai.model.RestResult;
 import com.dxc.pai.util.CommonTool;
+import com.dxc.pai.util.Util;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -33,7 +38,9 @@ public class OrderService {
 	
 	@Autowired
 	private OrderTableMapper orderTableMapper;
-	
+
+	@Autowired
+	private AllFacesMapper allFacesMapper;
 
 	@Autowired
 	private FoodcombMapper foodcombMapper;
@@ -180,6 +187,35 @@ public class OrderService {
 		System.out.println(saleDataPercent.toString());
 		return saleDataPercent;
 		
+	}
+	public List<Foodcomb> getComb() {
+		List<Foodcomb> selectAll = foodcombMapper.selectAll();
+		return selectAll;
+	}
+	public JSONArray getOrderAndFace() {
+		
+		JSONArray result = JSONArray.fromObject(orderTableMapper.selectAll().stream()
+			.filter(ele -> ele.getFindAllfacesId() != null)
+			.map(ele -> getMap(ele))
+			.filter(ele -> ele != null)
+			.collect(Collectors.toList()));		
+		return result;
+	}
+	private JSONObject getMap(OrderTable ot) {
+		try {
+			AllFaces af = allFacesMapper.selectByPrimaryKey(ot.getFindAllfacesId());
+			JSONObject temp = new JSONObject();
+			temp.put("fooddetails", ot.getFooddetails());
+			temp.put("opentime", Util.getFormatDateAll(ot.getOpentime()));
+			temp.put("age", af.getAge());
+			temp.put("pictime", Util.getFormatDateAll(af.getPictime()));
+			temp.put("ethnicity", af.getEthnicity());
+			temp.put("femaleScore", af.getFemaleScore());
+			temp.put("maleScore", af.getMaleScore());
+			return temp;
+		}catch(Exception ex) {
+			return null;
+		}
 	}
 
 	public Foodcomb selectByComb(String comb) {

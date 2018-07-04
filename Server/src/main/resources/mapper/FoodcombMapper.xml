@@ -39,5 +39,6 @@
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, comb, count, createtime, updatetime
     from foodcomb
+    order by count desc
   </select>
 </mapper>

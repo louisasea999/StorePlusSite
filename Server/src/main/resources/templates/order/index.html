@@ -1,17 +1,117 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>index.html</title>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+	<head>
+	<title>index.html</title>
 	
-    <meta name="keywords" content="keyword1,keyword2,keyword3">
-    <meta name="description" content="this is my page">
-    <meta name="content-type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     
-    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
-
-  </head>
+	<link href="/sps/js/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet"></link>
+	<script src="/sps/js/jquery-3.1.1.min.js"></script>
+	<script src="/sps/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	</head>
   
-  <body>
-    show the orders. <br>
-  </body>
+	<body>
+		<ul id="myTab" class="nav nav-tabs">
+		<li class="active">
+			<a href="#orderToFace" data-toggle="tab">
+				Order to Face
+			</a>
+		</li>
+		<li>
+			<a href="#foomComb" data-toggle="tab">
+				food combination
+			</a>
+		</li>
+        </ul>
+		<div id="myTabContent" class="tab-content">
+			<div class="tab-pane fade in active" id="orderToFace">
+				<table class="table">
+					<thead><tr>
+					<th>age</th>
+					<th>ethnicity</th>
+					<th>femaleScore</th>
+					<th>maleScore</th>
+					<th>fooddetails</th>
+					<th>pictime</th>
+					<th>ordertime</th>
+					</tr></thead>
+					<tbody></tbody>
+				</table>
+			</div>
+			<div class="tab-pane fade" id="foomComb">
+				<table class="table">
+					<thead><tr>
+					<th>combination</th>
+					<th>count</th>
+					<th>createtime</th>
+					<th>updatetime</th>
+					</tr></thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+	</body>
 </html>
+<script type="text/javascript">
+	$(document).ready(function(){
+		getOTF();
+		getFC();
+		
+	});
+	function getOTF(){
+		var html = "";
+		$.ajax({
+			//type: "POST",
+			url: "/sps/Order/table/getOrderAndFace",
+			dataType: "json",
+			async:true,
+			traditional:false,
+			success: function (data) {
+				//debugger;
+				$('#orderToFace table tbody').html();
+				//console.log(data);
+				var darr = data.data;
+				var arrSize = darr.length;
+				for (item in darr){
+					html+="<tr><td>"+darr[item].age+"</td>"+
+							"<td>"+darr[item].ethnicity+"</td>"+
+							"<td>"+darr[item].femaleScore+"</td>"+
+							"<td>"+darr[item].maleScore+"</td>"+
+							"<td>"+JSON.stringify(darr[item].fooddetails)+"</td>"+
+							"<td>"+darr[item].pictime+"</td>"+
+							"<td>"+darr[item].opentime+"</td>"+
+							"</tr>";
+				}
+				$('#orderToFace table tbody').html(html);
+				
+			}
+		});
+	}
+	function getFC(){
+		var html = "";
+		$.ajax({
+			//type: "POST",
+			url: "/sps/Order/table/getFoodComb",
+			dataType: "json",
+			async:true,
+			traditional:false,
+			success: function (data) {
+				//debugger;
+				$('#foomComb table tbody').html();
+				var darr = data.data;
+				var arrSize = darr.length;
+				console.log("combinations:"+arrSize);
+				for (item in darr){
+					html+="<tr><td>"+darr[item].comb+"</td>"+
+							"<td>"+darr[item].count+"</td>"+
+							"<td>"+new Date(darr[item].createtime).toLocaleDateString()+"</td>"+
+							"<td>"+new Date(darr[item].updatetime).toLocaleDateString()+"</td>"+
+							"</tr>";
+				}
+				$('#foomComb table tbody').html(html);
+				
+			}
+		});
+	}
+</script>
