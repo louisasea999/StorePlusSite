@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 
-	
-=======
->>>>>>> cff99b8708dd8ab7d1db40bd01a103f8dbadecb8
 package com.dxc.pai;
 
 import java.text.Collator;
@@ -58,10 +54,9 @@ public class PaiApplicationTests {
 	@Autowired
 	public FaceServices fs;
 	
-<<<<<<< HEAD
 	@Autowired
 	public FacesService fss;
-=======
+
 	@Test
 	public void getRange() {
 		/*List<OrderTable> li = os.getRange(new Date(new Date().getTime() - 24*60*60*1000),new Date(new Date().getTime() - 1*60*60*1000));
@@ -222,8 +217,6 @@ public class PaiApplicationTests {
 	//new Date(1524801743296l)), Util.getFormatDateAll(new Date(1524802070296l)))
 
 	
->>>>>>> cff99b8708dd8ab7d1db40bd01a103f8dbadecb8
-	
 	
 	
 	@Test
@@ -234,7 +227,7 @@ public class PaiApplicationTests {
 		
 	}
 	
-<<<<<<< HEAD
+
 //	@Test
 //	public void getRange() {
 //		/*List<OrderTable> li = os.getRange(new Date(new Date().getTime() - 24*60*60*1000),new Date(new Date().getTime() - 1*60*60*1000));
@@ -794,7 +787,7 @@ public class PaiApplicationTests {
 //				.collect(Collectors.partitioningBy((e) -> e>2));
 //		mapp.forEach((key,val) -> System.out.println(key+","+val));
 //	}
-=======
+
 
 
 	public void testnewselect() {
@@ -941,6 +934,5 @@ public class PaiApplicationTests {
 				.collect(Collectors.partitioningBy((e) -> e>2));
 		mapp.forEach((key,val) -> System.out.println(key+","+val));
 	}
->>>>>>> cff99b8708dd8ab7d1db40bd01a103f8dbadecb8
 }
 
