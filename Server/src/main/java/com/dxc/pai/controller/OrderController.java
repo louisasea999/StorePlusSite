@@ -1,5 +1,7 @@
 package com.dxc.pai.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolationException;
 
@@ -125,6 +127,13 @@ public class OrderController {
     public RestResult getFoodComb() {
     	RestResult rr = generator.getSuccessResult("FoodComb",os.getComb());
     	return rr;
+    }
+    @RequestMapping("/getFoodComb")
+    public RestResult getTopTen() {
+    	Date startDate = new Date(new Date().getTime() - 72*60*60*1000);
+    	Date endDate = new Date();
+    	RestResult rtt = generator.getSuccessResult("TopTen",os.getTopTen(startDate, endDate, 10));
+    	return rtt;
     }
 
 }
