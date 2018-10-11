@@ -8,8 +8,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -27,6 +30,27 @@ public class ETest {
 	public void testGroup() {
 		Integer it = new Integer(2);
 		it.compareTo(2);
+	}
+
+	@Test
+	public void dispGroupBy() {
+		
+		String arr1[] = {"aa","aa","bb","bb","c","c","c","d"};
+		List<String> st1 = Arrays.asList(arr1);
+		
+		
+		Map<String,Long> toptenmap = st1
+				.stream()
+				.collect(Collectors.groupingBy(e->e, Collectors.counting()));
+		System.out.println(toptenmap);
+		Map<String,Long> toptenmap2 = new LinkedHashMap<>();
+		toptenmap.entrySet().stream()
+		.sorted((Map.Entry<String,Long> o1,Map.Entry<String, Long> o2)->(int)(o2.getValue()-o1.getValue()))
+		.limit(2)
+		//.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+        //        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+		.forEachOrdered(x->toptenmap2.put(x.getKey(),x.getValue()));
+		System.out.println(toptenmap2);
 	}
 
 	

@@ -1,10 +1,15 @@
 package com.dxc.pai.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -234,6 +239,61 @@ public class OrderService {
 		insertFC(fc);
 	}
 	
+	public Map<String,Long> getTopTen(Date start,Date end,int numberOfFood){
+		//List<OrderTable> ots = getRange(new Date(), new Date(new Date().getTime() - 72*60*60*1000));
+		List<OrderTable> orderTables = getRange(start,end);
+		/*
+		JSONArray foodDetails = JSONArray.fromObject(ots.get(0).getFooddetails());
+		for(int j=0;j<foodDetails.size();j++)
+		{
+			int count = 0;
+			JSONObject food=JSONObject.fromObject(foodDetails.get(j));
+			String foodName = food.get("foodName").toString();
+		}
+		*/
+		Map<String,Long> TopTen = orderTables.stream()
+				//.map(ele->ele.getFooddetails())
+		.map(ele->generateFoodNameList(ele.getFooddetails()))
+		.reduce((ele1,ele2)->mergeList(ele1,ele2))
+		.get()
+		.stream()
+		.collect(Collectors.groupingBy(ele->ele, Collectors.counting()))
+		.entrySet()
+		.stream()
+		//.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+		.sorted((Map.Entry<String, Long> o1, Map.Entry<String, Long> o2) -> (int)(o2.getValue() - o1.getValue()))
+		.limit(numberOfFood)
+		.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+		/*
+		List<Long> top = TopTen.values().stream()
+			.sorted()
+			.limit(numberOfFood)
+			//.forEach(ele -> filterMap(ele,TopTen));
+			.collect(Collectors.toList());
+		for(int i = 0; i < top.size(); i++) {
+			
+		}
+		*/
+		return TopTen;
+	}
+	/*private void filterMap(Long value, Map<String,Long> map) {
+		
+	}*/
+	private List<String> generateFoodNameList(String foodDetails){
+		JSONArray JSfoodDetails = JSONArray.fromObject(foodDetails);
+		
+		return (List<String>) JSfoodDetails
+				.stream()
+				.map(ele->(JSONObject.fromObject(ele)).get("foodName").toString())
+				.collect(Collectors.toList());
+	}
+	
+	public <T> List<T> mergeList(List<T> li1, List<T> li2){
+		li1.addAll(li2);
+		return li1;
+	}
+
 	//for test. will be useless
 	public List<String> sele(int number){
 		return orderTableMapper.selectLatest(number);

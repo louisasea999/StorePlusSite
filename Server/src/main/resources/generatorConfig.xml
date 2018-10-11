@@ -58,9 +58,9 @@
         <!--  <table tableName="testmybatis" domainObjectName="TestMybatis" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table> -->
-        <table tableName="ordertable" domainObjectName="OrderTable" enableCountByExample="false"
+        <!--<table tableName="ordertable" domainObjectName="OrderTable" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+               selectByExampleQueryId="false"></table>-->
         <!-- <table tableName="foodcomb" domainObjectName="Foodcomb" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table> -->

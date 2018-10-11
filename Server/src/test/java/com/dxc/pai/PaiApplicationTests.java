@@ -79,7 +79,7 @@ public class PaiApplicationTests {
 	}
 	
 	@Test
-	public void getAllData() {
+	public void combineOrderAndFace() {
 		/*
 		List<FindAllfaces> fsd = fs.selectAllFaceData();
 		fsd.stream()
@@ -96,7 +96,7 @@ public class PaiApplicationTests {
 		*/
 		
 		
-		///* the two list should be two params
+		///* initialize date first(the two list should be two params).
 		List<FindAllfaces> facesToBeConn = fs.selectAllFaceData().stream()
 				.sorted(Comparator.comparing(FindAllfaces::getPictime))
 				.collect(Collectors.toList());
